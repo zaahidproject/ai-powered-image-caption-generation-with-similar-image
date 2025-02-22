@@ -25,8 +25,8 @@ image-captioning-similar-image/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/image-captioning-similar-image.git
-   cd image-captioning-similar-image
+   git clone https://github.com/zaahidproject/ai-powered-image-caption-generation-with-similar-image.git
+   cd ai-powered-image-caption-generation-with-similar-image.git
    ```
 2. Create a virtual environment and install dependencies:
    ```bash
