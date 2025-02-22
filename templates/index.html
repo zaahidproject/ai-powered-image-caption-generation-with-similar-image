@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Image Caption & Similar Image Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        color: #212529;
+        /* min-height: 100vh; */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* overflow: hidden; */
+        background: linear-gradient(to right, #000000, #00ccff);
+        /* position: relative; */
+      }
+
+      header {
+        width: 100%;
+        background-color: #ffffff;
+        border-bottom: 1px solid #dee2e6;
+        padding: 1rem 0;
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+      }
+
+      nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+      }
+
+      nav ul li a {
+        color: #212529;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      nav ul li a:hover {
+        color: #007bff;
+      }
+
+      .container {
+        margin-top: 120px;
+        max-width: 800px;
+        width: 100%;
+        padding: 2rem 1rem;
+        text-align: center;
+        z-index: 1;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #ffffff;
+        margin-bottom: 1rem;
+      }
+
+      p.description {
+        font-size: 1.1rem;
+        color: #f8f9fa;
+        margin-bottom: 2rem;
+      }
+
+      .input-container {
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .file-input-container {
+        margin-bottom: 1rem;
+      }
+
+      input[type="file"] {
+        display: none;
+      }
+
+      label {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: #007bff;
+        color: white;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      label:hover {
+        background-color: #0056b3;
+      }
+
+      input[type="submit"] {
+        display: inline-block;
+        padding: 0.75rem 2rem;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #218838;
+      }
+
+      .image-display,
+      .similar-image {
+        margin: 2rem 0;
+        max-width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .caption {
+        font-size: 1.2rem;
+        color: #ffffff;
+        margin-top: 1rem;
+      }
+
+      .btn-speak-caption {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        font-size: 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .btn-speak-caption:hover {
+        background-color: #495057;
+      }
+
+      .card {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 2rem;
+        margin: 2rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        text-align: left;
+      }
+
+      .card h2 {
+        font-size: 1.5rem;
+        color: #212529;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .card p,
+      .card ul {
+        color: #6c757d;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .card ul {
+        list-style: none;
+        padding-left: 1rem;
+      }
+
+      .card ul li {
+        margin-bottom: 0.5rem;
+        position: relative;
+      }
+
+      .card ul li::before {
+        content: "•";
+        color: #007bff;
+        font-weight: bold;
+        display: inline-block;
+        width: 1rem;
+        margin-left: -1rem;
+      }
+      #image-message{
+        color: #f8f9fa;
+      }
+      h2{
+        color: #f8f9fa;
+      }
+      img{
+        height: 350px;
+        width: 350px;
+        border-radius: 8px;
+      }
+      #generation-message{
+        color: #f8f9fa;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div>
+          <h2>Image Caption Generator</h2>
+        </div>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#key-features">Features</a></li>
+          <li><a href="#technology">Technology</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="container">
+      <h1>Generate Image Captions & Similar Images</h1>
+      <p class="description">Upload an image to generate a caption and discover similar images.</p>
+
+      <div class="input-container">
+        <form action="/" method="POST" enctype="multipart/form-data">
+          <div class="file-input-container">
+            <input type="file" id="file-upload" name="image" accept="image/*" onchange="checkImageSelection()"/>
+            <label for="file-upload"><i class="fas fa-upload"></i> Choose Image</label>
+          </div>
+          <input type="submit" value="Generate Caption" />
+        </form>
+      </div>
+
+      <!-- Display selected image message -->
+      <div id="image-message"></div>
+
+      <!-- Display image and results -->
+      <div id="image-section">
+        {% if image %}
+        <img src="data:image/jpeg;base64,{{ image }}" class="image-display" alt="Uploaded Image" />
+        {% endif %}
+      </div>
+
+      {% if caption %}
+        <p class="caption">Generated Caption: "{{ caption }}"</p><br><br>
+        <button class="btn-speak-caption" onclick="speakCaption()">Speak Caption</button>
+      {% endif %}
+<br><br><br>
+      <div>
+        {% if similar_image %}
+        <h2>Similar Image</h2>
+        <img src="data:image/jpeg;base64,{{ similar_image }}" class="similar-image" alt="Similar Image" />
+        {% endif %}
+      </div>
+      <br>
+      {% if generation_message %}
+      <p id="generation-message">{{ generation_message }}</p>
+      {% endif %}
+
+      <!-- Information cards -->
+      <div class="card" id="key-features">
+        <h2><i class="fas fa-lightbulb"></i> Key Features</h2>
+        <p>Discover the features of our image caption generator:</p>
+        <ul>
+          <li>AI-generated captions for images</li>
+          <li>Generation of similar images using a text-to-image model</li>
+          <li>Base64 image encoding for easy integration into HTML</li>
+          <li>User-friendly interface with image upload and result display</li>
+        </ul>
+      </div>
+
+      <div class="card" id="technology">
+        <h2><i class="fas fa-cogs"></i> About the Technology</h2>
+        <p>Our application leverages AI models for image captioning and generation:</p>
+        <ul>
+          <li>Image Captioning: Powered by Hugging Face's Salesforce/blip-image-captioning-large</li>
+          <li>Image Generation: Uses a Stable Diffusion-based model (stabilityai/stable-diffusion-xl-base-1.0)</li>
+        </ul>
+      </div>
+
+      <div class="card" id="how-it-works">
+        <h2><i class="fas fa-info-circle"></i> How It Works</h2>
+        <p>Follow these simple steps to generate captions and similar images:</p>
+        <ul>
+          <li>Upload an image</li>
+          <li>Generate a caption</li>
+          <li>View a similar image</li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+
+function checkImageSelection() {
+        var fileInput = document.getElementById("file-upload");
+        var messageContainer = document.getElementById("image-message");
+
+        if (fileInput.files.length > 0) {
+          messageContainer.innerHTML = "Image has been selected!";
+        } else {
+          messageContainer.innerHTML = "";
+        }
+      }
+
+      function speakCaption() {
+        var captionText = document.querySelector(".caption").innerText;
+        var utterance = new SpeechSynthesisUtterance(captionText);
+        window.speechSynthesis.speak(utterance);
+      }
+    </script>
+  </body>
+</html>
