@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 # Initialize the client
 client = InferenceClient("stabilityai/stable-diffusion-xl-base-1.0", 
-                         token="token")
+                         token="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")
 
 @app.route('/generate-image', methods=['GET'])
 def generate_image():
