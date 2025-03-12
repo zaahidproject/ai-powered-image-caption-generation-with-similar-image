@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # Hugging Face API details
 API_URL = "https://api-inference.huggingface.co/models/Salesforce/blip-image-captioning-large"
-HEADERS = {"Authorization": "Bearer token"}
+HEADERS = {"Authorization": "Bearer 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"}
 
 # Call the local image generation API
 def generate_similar_image(caption):
